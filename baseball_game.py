@@ -92,6 +92,7 @@ def is_duplicated_number(three_digit):
     for i in range(2):
         if three_digit.find(three_digit[i], i+1) != -1:
             result = True
+            # break
     # ==================================
     return result
 
@@ -272,10 +273,17 @@ def is_no(one_more_input):
 
 
 def input_guess_number():
+    """
+    get input_number from user for play baseball game
+
+    Returns:
+        user_input(str): return user input which value satisfy 3 conditions (integer, 100~999, not duplicated)
+    """
+
     while True:
         user_input = input("Input guess number : ")
         if user_input == '0':
-            break
+            raise Exception
 
         if not is_validated_number(user_input):
             print("Wrong Input, Input again")
@@ -311,24 +319,22 @@ def want_play_again():
 def main():
     print("Play Baseball")
 
-    while True:
-        random_number = str(get_not_duplicated_three_digit_number())
-        print("Random Number is : ", random_number)
-
+    try:
         while True:
-            user_input = input_guess_number()
-            if user_input == '0':
-                break
+            random_number = str(get_not_duplicated_three_digit_number())
+            print("Random Number is : ", random_number)
 
-            if check_strike_ball(user_input, random_number):
-                break
+            while True:
+                user_input = input_guess_number()
+                if check_strike_ball(user_input, random_number):
+                    break
 
-        if user_input == '0' or not want_play_again():
-            break
+            if not want_play_again():
+                raise Exception
 
-    # ==================================
-    print("Thank you for using this program")
-    print("End of the Game")
+    except Exception:
+        print("Thank you for using this program")
+        print("End of the Game")
 
 
 if __name__ == "__main__":
